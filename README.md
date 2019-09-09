@@ -123,3 +123,25 @@ class MyApp extends StatelessWidget {
 }
 
 ```
+
+## DART
+Better Syntax in our code with Dart's syntax. Dart is a typed language therefor we can add types to variable function return types etc. Using types is strongly recommeded and helps to write better code.
+
+```
+//returns nothing.
+void main() {
+  runApp(MyApp());
+}
+
+//short cut arrow notation. Only valid if you have one statement
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+
+  
+  Widget build(BuildContext context) {
+
+  }
+}
+
+```
