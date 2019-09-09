@@ -58,4 +58,68 @@ The dart code gets compiled to native code by the flutter SDK.
 `>> View >> Extensions` search flutter and install which will also install the dart.
 
 ## Flutter & Material Design.
-Flutter imbraces material design but it is completely costomizable
+Flutter imbraces material design but it is completely costomizable.
+
+
+## Coding the project from scratch.
+* lib/main.dart file is the entry point for the app and you should not rename it.
+* Android and IOS Folder will hold the native source code used by the build process.
+* LIB folder is where we write our entire flutter app.
+* Test is for automated test script folder.
+* pubspec.yaml is track for all the project dependencies it's where we will add third party library.
+
+
+## main.dart
+* lib/main.dart file is the entry point for the app and you should not rename it. 
+* One specific function will be executed here named `main()` flutter will call this function automatically where the app will start.
+* To render something in the display you attact a widget to the `main()` function.
+
+```
+
+
+```
+
+## Widgets.
+* Tool or Block by which you build a User Interface. A mobile app contains multiple widgets.
+* You can think of your flutter app as a tree of a widget.
+* Widget is a object of a class. To be a widget a class needs certain features. Therefore the class has to extend something.
+* To use the flutter functionality `import 'package:flutter/material.dart'` at top of the file.
+```
+    import 'package:flutter/material.dart';
+
+    main(){
+
+    }
+
+    class MyApp extends StatelessWidget{
+        build(){
+
+        }
+    }
+```
+* The build method takes one argument the `context` will contain few informations.
+* The build method returns something that has to be drawn on the screen.
+* The build method always returns another widget in the build method until you reach the widget that ships with flutter.
+```
+    build(context) {
+        return MaterialApp();
+    }
+```
+
+* the `MaterialApp` is a special core widget which is used to wrap your entire app also responsible for adding theme, navigation etc.
+* Now it can be used to draw something to the screen.
+
+
+* Scaffold create a nice white background container or page to your app where you provide data to show in the page.
+```
+class MyApp extends StatelessWidget {
+  build(context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('First Flutter ECommerce'),),
+      ),
+    );
+  }
+}
+
+```
