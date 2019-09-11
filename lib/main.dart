@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutteress/product_manager.dart';
 
 void main() => runApp(MyApp());
 
@@ -6,14 +7,73 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+          brightness: Brightness.dark, primarySwatch: Colors.deepOrange),
       home: Scaffold(
         appBar: AppBar(
           title: Text('Flutter Ecommerce'),
         ),
+        body: ProductManager(initialProducts: 'Barbell'),
       ),
     );
   }
 }
+
+// class MyHomePage extends StatelessWidget {
+// final String title;
+// MyHomePage({Key key, this.title}) : super(key: key);
+
+// _MyHomePageState createState() => _MyHomePageState();
+
+// }
+
+// class _MyHomePageState extends State<MyHomePage> {
+//   List<String> _products = ['Barbell'];
+
+//   @override
+//   Widget build(BuildContext context) {
+
+//   }
+// }
+
+// class _MyAppState extends State<MyApp> {
+//   List<String> _products = ['Barbell'];
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//         home: Scaffold(
+//       appBar: AppBar(
+//         title: Text('Flutter Ecommerce'),
+//       ),
+//       body: Column(
+//         children: <Widget>[
+//           Container(
+//             margin: EdgeInsets.all(10.0),
+//             child: RaisedButton(
+//               child: Text('Add Item'),
+//               onPressed: () {
+//                 _products.add('Trade mill');
+//               },
+//             ),
+//           ),
+//           Column(
+//             children: _products
+//                 .map((element) => Card(
+//                       child: Column(
+//                         children: <Widget>[
+//                           Image.asset('assets/barbell.jpg'),
+//                           Text('Barbell')
+//                         ],
+//                       ),
+//                     ))
+//                 .toList(),
+//           )
+//         ],
+//       ),
+//     ));
+//   }
+// }
 
 // import 'package:flutter/material.dart';
 

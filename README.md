@@ -22,7 +22,8 @@ Framework for Dart build with a pre build set of widget which can be used in you
 * Write Code with One Language
 * Customise for different platform.
 * Build & Publish with build tools.
-
+* Flutter is both and SDK which build the app as well as a Dart Framework that offers a rich set of classes and widget.
+* Dart is statically typed object oriented programming.
 
 `brew info dart` get the dart SDK location.
 
@@ -48,6 +49,15 @@ The dart code gets compiled to native code by the flutter SDK.
 * Create a flutter project with `flutter create project_name`
 
 * `cd project_name` && `flutter run`
+
+
+#### Flutter is all about Widget
+* You compose the user interface from a set of build in or custom widget.
+* Stateless widget takes only data as input and render a new widget tree.
+* Statefull widget works with both external data and internal data which can change (so called state).
+* Changes to the external or internal data lead to a re-render cycle.
+
+
 
 
 ## Project Environment In VS Code.
@@ -147,3 +157,158 @@ class MyApp extends StatelessWidget {
 }
 
 ```
+
+## Card & Images
+register your images in pubspec.yaml
+```
+  assets:
+   - assets/barbell.jpg
+```
+
+## Flutter Widgets Docs
+`flutter.dv >> Docs >> Widget Catalog`
+
+
+## Stateless Widget
+* A stateless widget is a very simple widget only able to except external data and build the UI or Widget tree.
+* Should be overriden by a build method.
+* It can't work with internal data, it can't change such internal data and it can't recall build method if some data changes.
+* The build method is only called when it created for  first time or some external data which it receive changes.
+```
+  Widget build(BuildContext context) {
+  }
+```
+
+## Statefull Widget
+* A statefull widget can contain a state/data which you can change it's state. 
+* Should be overriden by a createState method which return a State class.
+```
+  class MyHomePage extends StatefulWidget {
+    _MyHomePageState createState() => _MyHomePageState();
+  }
+
+  class _MyHomePageState extends State<MyHomePage> {
+    //this class will have the state/data
+    List<String> _products = ['Barbell'];
+
+  }
+```
+* Here the `MyHomePage statefullWidget` belongs to the `_MyHomePageState State Class`.
+
+* The state class contains a build method and a state here `_products` in our state class.
+
+
+## Modularizing your widgets in different files.
+
+* create a file `products` small case or `products_name` in lib folder which will contain a stateless class which will receive a state.
+
+```
+  class Products extends StatelessWidget {
+    final List<String> products;
+    Products(this.products); 
+
+    @override
+    Widget build(BuildContext context) {
+      return Column(
+        children: products
+            .map((element) => Card(
+                  child: Column(
+                    children: <Widget>[
+                      Image.asset('assets/barbell.jpg'),
+                      Text(element)
+                    ],
+                  ),
+                ))
+            .toList(),
+      );
+    }
+  }
+```
+
+* Here the `Products` class receives a `products` state in the constructor which will be used by the build method.
+
+## Life Cycle Hooks
+### Stateless
+> Input Data > Widget > Renders UI
+
+* A stateless widget have a constructor method
+* Then it has the build function, can be called multiple times when the state changes.
+* That's only in the lifecycle hook of stateless.
+
+
+### Stateful
+> Input Data > Widget > Renders UI
+* Constructor function
+* `initState()` function is called then 
+* `build()` function is called.
+
+* `setState()` can be called.
+
+* You can have some changes to your external data which calls the `didUpdateWidget` which will eventually call the `build()` method again.
+
+
+
+## Material Theme.
+```
+    return MaterialApp(
+      theme: ThemeData(
+          brightness: Brightness.dark, primarySwatch: Colors.deepOrange),
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Flutter Ecommerce'),
+        ),
+        body: ProductManager('Barbell'),
+      ),
+    );
+
+```
+
+
+## Passing Data Up.
+If you want to pass data up, you have something hapening in a widget and if the parents widget needs to know about it, then you do that by passing a reference to a function which is executed by the parent widget.
+```
+  void _addProduct(String product) {
+    setState(() {
+      _products.add(product);
+    });
+  }
+
+  //pass the setState function to the widget
+  Products(_products)
+
+  //accept the _product in constructor and call it.
+  ProductControl(this.addProduct);  
+  
+```
+
+## Const & Final
+`final` means a property is final can't assign a new value but we the object in the memory can be updated by can't create a new one with equal sign. List and object are reference type and we use method on that reference is OK which changes the existing element but does not create a  new one. 
+
+```
+  final List<String> _products = [];
+  //valid
+  _products.add('Hello');
+
+  //invalid
+  _products=['hello']
+```
+
+`const` If we want to insure we do not want to change even the ref. So if you want to make sure a value can never be changed use `const` in the right side of the equal sign.
+
+```
+  final List<String> _products = const [];
+```
+
+
+## Debuggin a Flutter Error
+Different kind of errors and way to find and fix these errors.
+
+#### Syntax Error.
+* In Vs Code hover over the red mark in the syntax error to get the message.
+
+#### Run Time Errors
+* Run time error is display on the projects running console.
+
+#### Logical Errors.
+
+`break points` to Pause our code excution and move step by step to debug the app. For this you need to stop the process and start it with debugging enabled `Debug > Start Debugging`. Click on the left side of the editor to mark a stop point / line for the execution to pause. And you can use the control panel provided by VS code to control the execution.
