@@ -312,3 +312,29 @@ Different kind of errors and way to find and fix these errors.
 #### Logical Errors.
 
 `break points` to Pause our code excution and move step by step to debug the app. For this you need to stop the process and start it with debugging enabled `Debug > Start Debugging`. Click on the left side of the editor to mark a stop point / line for the execution to pause. And you can use the control panel provided by VS code to control the execution.
+
+
+## DebugPaintSize
+```
+import 'package:flutter/rendering.dart';
+
+void main() {
+  debugPaintSizeEnabled = true;ss
+  debugPaintBaselinesEnabled = true;
+  debugPaintPointersEnabled = true; 
+
+ runApp(MyApp()); 
+}
+```
+
+To Get The GRID.
+```
+return MaterialApp(
+      debugShowMaterialGrid: true,
+)
+
+```
+
+## List View.
+List view as the name suggest is the view to render list which has a children argument. 
+**NOTE** If you want to have a list view below a `container` widger then you must include the list view inside the container widget.
