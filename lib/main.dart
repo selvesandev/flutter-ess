@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutteress/product_manager.dart';
+import 'package:flutteress/pages/auth.dart';
+import 'package:flutteress/pages/products.dart';
+import 'package:flutteress/pages/products_admin.dart';
+// import 'package:flutteress/pages/products.dart';
 
 void main() {
   // debugPaintSizeEnabled = true;
@@ -15,13 +17,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       // debugShowMaterialGrid: true,
       theme: ThemeData(
-          brightness: Brightness.dark, primarySwatch: Colors.deepOrange),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Flutter Ecommerce'),
-        ),
-        body: ProductManager(initialProducts: 'Barbell'),
-      ),
+          brightness: Brightness.light, primarySwatch: Colors.deepOrange),
+      // home: AuthPage(),
+      routes: {
+        '/admin':(BuildContext context) => ProductAdmin(),
+        '/':(BuildContext context) => ProductsPage()
+      },
     );
   }
 }

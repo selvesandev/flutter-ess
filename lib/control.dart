@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ProductControl extends StatelessWidget {
   final Function addProduct;
 
-  ProductControl(this.addProduct);  
+  ProductControl(this.addProduct);
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +11,7 @@ class ProductControl extends StatelessWidget {
           color: Theme.of(context).primaryColor,
           child: Text('Add Item'),
           onPressed: () {
-            addProduct('Selvesan');
+            addProduct({'title':'Barbell','image':'assets/barbell.jpg'});
           },
         );
   }

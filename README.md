@@ -337,4 +337,87 @@ return MaterialApp(
 
 ## List View.
 List view as the name suggest is the view to render list which has a children argument. 
-**NOTE** If you want to have a list view below a `container` widger then you must include the list view inside the container widget.
+```
+ListView(
+      children: products
+          .map((element) => Card(
+                child: Column(
+                  children: <Widget>[
+                    Image.asset('assets/barbell.jpg'),
+                    Text(element)
+                  ],
+                ),
+              ))
+          .toList(),
+    );
+```
+**NOTE** If you want to have a list view below a `container` or a `Expanded` widger then you must include the list view inside the container widget.
+```
+return Column(children: <Widget>[
+      Container(margin: EdgeInsets.all(10.0), child: ProductControl(_addProduct)),
+      Container(height:300.00,child: Products(_products))
+    ]);
+```
+
+```
+Expanded(child: Products(_products))
+```
+
+#### Optimizing the List View (with builder).
+```
+  Widget _buildProductItem(BuildContext context, int index) {
+    return Card(
+      child: Column(
+        children: <Widget>[
+          Image.asset('assets/barbell.jpg'),
+          Text(products[index])
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemBuilder: _buildProductItem,
+      itemCount: products.length,
+    );
+  }
+
+```
+Here we are using the `ListView.builder` method to display the list items. `itemBuilder` calls the `_buildProductItem` function to display the card each time. `itemCount` is the total item count.
+
+**NOTE** The build method should not return `null` value it should atleast return a empty `Container()` widget.
+
+## Navigation.
+For the Navigation to work you should wrap your pages with `MaterialApp`
+```
+Widget build(BuildContext context) {
+    return MaterialApp(
+      // debugShowMaterialGrid: true,
+      theme: ThemeData(
+          brightness: Brightness.light, primarySwatch: Colors.deepOrange),
+      home: AuthPage()
+    );
+  }
+```
+#### Names Route
+```
+return MaterialApp(
+      // debugShowMaterialGrid: true,
+      theme: ThemeData(
+          brightness: Brightness.light, primarySwatch: Colors.deepOrange),
+      // home: AuthPage(),
+      routes: {
+        '/admin':(BuildContext context) => ProductAdmin(),
+        '/':(BuildContext context) => ProductsPage()
+      },
+    );
+```
+**NOTE** `/` is a special route reserved for the home page hence the `/` name will only work if you don't have the `home` specified.
+
+```
+onTap: () {
+  Navigator.pushReplacementNamed(context, '/' );
+})
+```
