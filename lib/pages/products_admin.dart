@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutteress/pages/product.dart';
 import 'package:flutteress/pages/product_create.dart';
 import 'package:flutteress/pages/product_list.dart';
-import 'package:flutteress/pages/products.dart';
 
 class ProductAdmin extends StatelessWidget {
   @override
@@ -17,7 +15,7 @@ class ProductAdmin extends StatelessWidget {
               ListTile(
                   title: Text('All Products'),
                   onTap: () {
-                    Navigator.pushReplacementNamed(context, '/');
+                    Navigator.pushReplacementNamed(context, '/' );
                   })
             ],
           ),
