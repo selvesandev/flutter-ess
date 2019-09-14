@@ -421,3 +421,47 @@ onTap: () {
   Navigator.pushReplacementNamed(context, '/' );
 })
 ```
+
+#### onGenerateRoute.
+When the defined routes are not found then the `onGenerateRoute` function executed where you can handle your route.
+```
+onGenerateRoute: (RouteSettings setting) {
+        final List<String> pathElement = setting.name.split('/');
+        print(pathElement);
+        if (pathElement[0] != '') {
+          return null;
+        }
+
+        if (pathElement[1] == 'product') {
+          final int index = int.parse(pathElement[2]);
+
+          return MaterialPageRoute<bool>(
+            builder: (BuildContext context) => ProductPage(
+                _products[index]['title'], _products[index]['image']),
+          );
+        }
+        return null;
+      },
+```
+
+### onUnknownRoute
+When the route is not found in route definition or when the route is not handled in `onGenerateRoute` i.e it returning null, then the `onUnknownRoute is rendered`
+```
+
+```
+
+
+#### Summary
+
+* Navigation works with stack of pages, the top most is visible.
+* You push pages into the stack and pop them off.
+* The navigator does not directly push the page widget but instead uses routes (eg: `MaterialPageRoute`)
+* You can pass data to pages via page widget constructor.
+* You can return data by passing it to `pop()` and handling it in `then` method of the `Future` object
+
+* Besides direclty pushing pages, you can also use a global route registry and named routes.
+* Passing data is still possible.
+* `onGenerateRoute` can be used to implement custom route parsing and handling logic.
+* `onUnknownRoute` can be used to display the 404 routes.
+* `Dialog` and `Modals` are also managed via the navigator.
+* `Navigator.pop()` closes the overlay, a second call closes the page.

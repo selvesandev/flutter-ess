@@ -3,6 +3,7 @@ import 'package:flutteress/pages/auth.dart';
 import 'package:flutteress/pages/product.dart';
 import 'package:flutteress/pages/products.dart';
 import 'package:flutteress/pages/products_admin.dart';
+import 'package:flutteress/products.dart';
 // import 'package:flutteress/pages/products.dart';
 
 void main() {
@@ -56,12 +57,16 @@ class _MyAppState extends State<MyApp> {
         if (pathElement[1] == 'product') {
           final int index = int.parse(pathElement[2]);
 
-          return MaterialPageRoute(
+          return MaterialPageRoute<bool>(
             builder: (BuildContext context) => ProductPage(
                 _products[index]['title'], _products[index]['image']),
           );
         }
         return null;
+      },
+      onUnknownRoute: (RouteSettings settings) {
+        return MaterialPageRoute(
+            builder: (BuildContext context) => Products(_products));
       },
     );
   }
