@@ -39,7 +39,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       // debugShowMaterialGrid: true,
       theme: ThemeData(
-          brightness: Brightness.light, primarySwatch: Colors.deepOrange),
+          brightness: Brightness.light, primarySwatch: Colors.deepOrange,fontFamily: 'MyFont'),
       // home: AuthPage(),
       routes: {
         '/admin': (BuildContext context) => ProductAdmin(this._addProduct, this._deleteProduct),
