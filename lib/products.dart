@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutteress/pages/product.dart';
 
 class Products extends StatelessWidget {
-  final List<Map<String, String>> products;
-  final Function deleteProduct;
-  Products(this.products, {this.deleteProduct});
+  final List<Map<String, dynamic>> products;
+  // final Function deleteProduct;
+  Products(this.products);
 
   Widget _buildProductItem(BuildContext context, int index) {
     return Card(
@@ -21,7 +20,7 @@ class Products extends StatelessWidget {
                         context, '/product/' + index.toString())
                     .then((bool value) {
                   if (value) {
-                    deleteProduct(index);
+                    // deleteProduct(index);
                   }
                 }),
               ),

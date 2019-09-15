@@ -440,7 +440,7 @@ onGenerateRoute: (RouteSettings setting) {
                 _products[index]['title'], _products[index]['image']),
           );
         }
-        return null;
+        return null;s
       },
 ```
 
