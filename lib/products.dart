@@ -15,7 +15,20 @@ class Products extends StatelessWidget {
           ),
           Container(
             margin: EdgeInsets.all(10),
-            child: Text(products[index]['title'],style: TextStyle(fontSize: 26,fontWeight: FontWeight.bold,color: Colors.white,fontFamily: 'MyFont'),),
+            child: Row(mainAxisAlignment: MainAxisAlignment.center,children: <Widget>[
+              Text(
+                products[index]['title'],
+                style: TextStyle(
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontFamily: 'MyFont'),
+              ),
+              SizedBox(
+                width: 8,
+              ),
+              Text(products[index]['price'].toString())
+            ]),
             color: Colors.red,
             padding: EdgeInsets.all(10),
           ),
