@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 class ProductPage extends StatelessWidget {
-  final String title, image;
+  final String title, image, description;
   // final String imageUrl;
 
-  ProductPage(this.title, this.image);
+  ProductPage(this.title, this.image,this.description);
 
   _showWarnindDialog(BuildContext context) {
     return showDialog(
@@ -49,11 +49,17 @@ class ProductPage extends StatelessWidget {
             children: <Widget>[
               Image.asset(image),
               Container(
-                padding: EdgeInsets.all(10),
-                child: Center(
-                  child: Text(title),
-                ),
-              ),
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    children: <Widget>[
+                      Center(
+                        child: Text(title),
+                      ),
+                      Center(
+                        child: Text(description,),
+                      )
+                    ],
+                  )),
               Container(
                 padding: EdgeInsets.all(10),
                 child: RaisedButton(

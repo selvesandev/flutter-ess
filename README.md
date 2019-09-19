@@ -440,7 +440,7 @@ onGenerateRoute: (RouteSettings setting) {
                 _products[index]['title'], _products[index]['image']),
           );
         }
-        return null;s
+        return null;
       },
 ```
 
@@ -465,3 +465,4 @@ When the route is not found in route definition or when the route is not handled
 * `onUnknownRoute` can be used to display the 404 routes.
 * `Dialog` and `Modals` are also managed via the navigator.
 * `Navigator.pop()` closes the overlay, a second call closes the page.
+
