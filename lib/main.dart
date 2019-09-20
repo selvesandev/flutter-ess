@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutteress/pages/auth.dart';
 import 'package:flutteress/pages/product.dart';
 import 'package:flutteress/pages/products.dart';
 import 'package:flutteress/pages/products_admin.dart';
@@ -39,12 +40,15 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       // debugShowMaterialGrid: true,
       theme: ThemeData(
-          brightness: Brightness.light, primarySwatch: Colors.deepOrange,fontFamily: 'MyFont'),
+          brightness: Brightness.light,
+          primarySwatch: Colors.deepOrange,
+          fontFamily: 'MyFont'),
       // home: AuthPage(),
       routes: {
-        '/admin': (BuildContext context) => ProductAdmin(this._addProduct, this._deleteProduct),
-        '/': (BuildContext context) =>
-            ProductsPage(this._products)
+        '/': (BuildContext context) => AuthPage(),
+        '/admin': (BuildContext context) =>
+            ProductAdmin(this._addProduct, this._deleteProduct),
+        '/products': (BuildContext context) => ProductsPage(this._products)
       },
       onGenerateRoute: (RouteSettings setting) {
         final List<String> pathElement = setting.name.split('/');
@@ -58,7 +62,9 @@ class _MyAppState extends State<MyApp> {
 
           return MaterialPageRoute<bool>(
             builder: (BuildContext context) => ProductPage(
-                _products[index]['title'], _products[index]['image'],_products[index]['description']),
+                _products[index]['title'],
+                _products[index]['image'],
+                _products[index]['description']),
           );
         }
         return null;
