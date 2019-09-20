@@ -6,7 +6,7 @@ class ProductAdmin extends StatelessWidget {
   final Function deleteProduct;
   final Function addProduct;
 
-  ProductAdmin(this.addProduct,this.deleteProduct);
+  ProductAdmin(this.addProduct, this.deleteProduct);
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +18,10 @@ class ProductAdmin extends StatelessWidget {
             children: <Widget>[
               AppBar(automaticallyImplyLeading: false, title: Text('Choose')),
               ListTile(
+                  leading: Icon(Icons.shop),
                   title: Text('All Products'),
                   onTap: () {
-                    Navigator.pushReplacementNamed(context, '/' );
+                    Navigator.pushReplacementNamed(context, '/');
                   })
             ],
           ),

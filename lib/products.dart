@@ -36,7 +36,7 @@ class Products extends StatelessWidget {
                         color: Theme.of(context).accentColor,
                         borderRadius: BorderRadius.circular(5.0)),
                     child: Text(
-                      '\$'+products[index]['price'].toString(),
+                      '\$' + products[index]['price'].toString(),
                       style: TextStyle(color: Colors.white),
                     ),
                   )
@@ -47,8 +47,20 @@ class Products extends StatelessWidget {
           ButtonBar(
             alignment: MainAxisAlignment.center,
             children: <Widget>[
-              FlatButton(
-                child: Text('Details'),
+              IconButton(
+                color: Theme.of(context).accentColor,
+                icon: Icon(Icons.info),
+                onPressed: () => Navigator.pushNamed<bool>(
+                        context, '/product/' + index.toString())
+                    .then((bool value) {
+                  if (value) {
+                    // deleteProduct(index);
+                  }
+                }),
+              ),
+              IconButton(
+                icon: Icon(Icons.favorite_border),
+                color: Colors.red,
                 onPressed: () => Navigator.pushNamed<bool>(
                         context, '/product/' + index.toString())
                     .then((bool value) {
