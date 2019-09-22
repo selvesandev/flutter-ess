@@ -3,7 +3,7 @@ import 'package:flutteress/pages/auth.dart';
 import 'package:flutteress/pages/product.dart';
 import 'package:flutteress/pages/products.dart';
 import 'package:flutteress/pages/products_admin.dart';
-import 'package:flutteress/products.dart';
+import 'package:flutteress/widgets/products/products.dart';
 // import 'package:flutteress/pages/products.dart';
 
 void main() {
@@ -42,6 +42,8 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
           brightness: Brightness.light,
           primarySwatch: Colors.deepOrange,
+          accentColor: Colors.deepPurple,
+          // buttonColor: Colors.greenAccent,
           fontFamily: 'MyFont'),
       // home: AuthPage(),
       routes: {

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:flutteress/widgets/ui_element/title_default.dart';
+
 class ProductPage extends StatelessWidget {
   final String title, image, description;
   // final String imageUrl;
@@ -53,7 +55,7 @@ class ProductPage extends StatelessWidget {
                   child: Column(
                     children: <Widget>[
                       Center(
-                        child: Text(title),
+                        child: TitleDefault(title),
                       ),
                       Center(
                         child: Text(description,),
@@ -64,7 +66,7 @@ class ProductPage extends StatelessWidget {
                 padding: EdgeInsets.all(10),
                 child: RaisedButton(
                   color: Theme.of(context).accentColor,
-                  child: Text('Delete'),
+                  child: Text('Delete',style: TextStyle(color: Colors.white),),
                   onPressed: () => _showWarnindDialog(context),
                 ),
               ),
