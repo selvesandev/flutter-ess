@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class ProductCreate extends StatefulWidget {
   final Function addProduct;
   final Map<String, dynamic> product;
@@ -22,7 +23,7 @@ class _ProductCreatePageState extends State<ProductCreate> {
     'title': null,
     'description': null,
     'price': null,
-    'image': 'assets/barbell.jpg'
+    'image': 'assets/lady.jpeg'
   };
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -111,12 +112,12 @@ class _ProductCreatePageState extends State<ProductCreate> {
     Navigator.pushReplacementNamed(context, '/products');
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildPageContent(BuildContext context) {
     final double deviceWidth = MediaQuery.of(context).size.width;
     final double targetWidth = deviceWidth > 550 ? 500 : deviceWidth * 0.95;
     final double targetPadding = deviceWidth - targetWidth;
-    final Widget pageContent = GestureDetector(
+
+    return GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
       },
@@ -163,8 +164,13 @@ class _ProductCreatePageState extends State<ProductCreate> {
         ),
       ),
     );
+  }
 
+  @override
+  Widget build(BuildContext context) {
+    final Widget pageContent = this._buildPageContent(context);
     if (widget.product == null) return pageContent;
+    
     return Scaffold(
       appBar: AppBar(
         title: Text('Edit Product'),
