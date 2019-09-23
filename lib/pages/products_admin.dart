@@ -5,8 +5,11 @@ import 'package:flutteress/pages/product_list.dart';
 class ProductAdmin extends StatelessWidget {
   final Function deleteProduct;
   final Function addProduct;
+  final Function updateProduct;
+  final List<Map<String, dynamic>> products;
 
-  ProductAdmin(this.addProduct, this.deleteProduct);
+  ProductAdmin(
+      this.addProduct, this.deleteProduct, this.products, this.updateProduct);
 
   Widget _buildSideDrawer(BuildContext context) {
     return Drawer(
@@ -46,7 +49,12 @@ class ProductAdmin extends StatelessWidget {
           ),
         ),
         body: TabBarView(
-          children: <Widget>[ProductCreate(addProduct), ProductList()],
+          children: <Widget>[
+            ProductCreate(
+              addProduct: addProduct,
+            ),
+            ProductList(this.products, this.updateProduct)
+          ],
         ),
       ),
     );

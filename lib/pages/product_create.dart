@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-
 class ProductCreate extends StatefulWidget {
   final Function addProduct;
-  ProductCreate(this.addProduct);
+  final Map<String, dynamic> product;
+  final Function updatePorduct;
+  final int productIndex;
+  ProductCreate(
+      {this.addProduct, this.updatePorduct, this.product, this.productIndex});
 
   @override
   State<StatefulWidget> createState() {
@@ -15,6 +18,12 @@ class _ProductCreatePageState extends State<ProductCreate> {
   String descValue;
   double priceValue;
   bool switchValue = true;
+  final Map<String, dynamic> _formData = {
+    'title': null,
+    'description': null,
+    'price': null,
+    'image': 'assets/barbell.jpg'
+  };
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Widget _buildTitleTextField() {
@@ -31,6 +40,7 @@ class _ProductCreatePageState extends State<ProductCreate> {
     return (TextFormField(
       decoration: InputDecoration(labelText: 'Product Title'),
       autofocus: true,
+      initialValue: widget.product == null ? '' : widget.product['title'],
       // autovalidate: true,
       validator: (String value) {
         if (value.isEmpty || value.length < 5) {
@@ -39,9 +49,8 @@ class _ProductCreatePageState extends State<ProductCreate> {
         return null;
       },
       onSaved: (String value) {
-        setState(() {
-          titleValue = value;
-        });
+        _formData['title'] = value;
+        // titleValue = value;
       },
     ));
   }
@@ -49,6 +58,7 @@ class _ProductCreatePageState extends State<ProductCreate> {
   Widget _buildDescriptionTextField() {
     return TextFormField(
       maxLines: 4,
+      initialValue: widget.product == null ? '' : widget.product['description'],
       autofocus: true,
       decoration: InputDecoration(labelText: 'Descripition'),
       validator: (String value) {
@@ -58,15 +68,15 @@ class _ProductCreatePageState extends State<ProductCreate> {
         return null;
       },
       onSaved: (String value) {
-        setState(() {
-          descValue = value;
-        });
+        _formData['description'] = value;
       },
     );
   }
 
   Widget _buildPriceTextField() {
     return TextFormField(
+      initialValue:
+          widget.product == null ? '' : widget.product['price'].toString(),
       keyboardType: TextInputType.number,
       decoration: InputDecoration(labelText: 'Price'),
       autofocus: true,
@@ -78,9 +88,7 @@ class _ProductCreatePageState extends State<ProductCreate> {
         return null;
       },
       onSaved: (String value) {
-        setState(() {
-          priceValue = double.parse(value);
-        });
+        _formData['price'] = double.parse(value);
       },
     );
   }
@@ -90,13 +98,16 @@ class _ProductCreatePageState extends State<ProductCreate> {
       return;
     }
     _formKey.currentState.save();
-    final Map<String, dynamic> product = {
-      'title': titleValue,
-      'description': descValue,
-      'price': priceValue,
-      'image': 'assets/barbell.jpg'
-    };
-    widget.addProduct(product);
+    // final Map<String, dynamic> product = {
+    //   'title': titleValue,
+    //   'description': descValue,
+    //   'price': priceValue,
+    //   'image': 'assets/barbell.jpg'
+    // };
+    if (widget.product == null)
+      widget.addProduct(_formData);
+    else
+      widget.updatePorduct(widget.productIndex, _formData);
     Navigator.pushReplacementNamed(context, '/products');
   }
 
@@ -105,49 +116,60 @@ class _ProductCreatePageState extends State<ProductCreate> {
     final double deviceWidth = MediaQuery.of(context).size.width;
     final double targetWidth = deviceWidth > 550 ? 500 : deviceWidth * 0.95;
     final double targetPadding = deviceWidth - targetWidth;
-    //gives information about the form's sate
-
-    return Container(
-      margin: EdgeInsets.all(10.0),
-      child: Form(
-        key: _formKey,
-        child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: targetPadding / 2),
-          children: <Widget>[
-            _buildTitleTextField(),
-            _buildDescriptionTextField(),
-            _buildPriceTextField(),
-            Row(
-              children: <Widget>[
-                Switch(
-                  value: switchValue,
-                  onChanged: (bool value) {
-                    setState(() {
-                      switchValue = value;
-                    });
-                  },
-                ),
-                Text('data')
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            RaisedButton(
-              child: Text('Save'),
-              color: Theme.of(context).accentColor,
-              textColor: Colors.white,
-              onPressed: _onFormSubmit,
-            ),
-            GestureDetector(
-              onTap: _onFormSubmit,
-              child: Container(
-                child: Text('Guesture'),
+    final Widget pageContent = GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      child: Container(
+        margin: EdgeInsets.all(10.0),
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            padding: EdgeInsets.symmetric(horizontal: targetPadding / 2),
+            children: <Widget>[
+              _buildTitleTextField(),
+              _buildDescriptionTextField(),
+              _buildPriceTextField(),
+              Row(
+                children: <Widget>[
+                  Switch(
+                    value: switchValue,
+                    onChanged: (bool value) {
+                      setState(() {
+                        switchValue = value;
+                      });
+                    },
+                  ),
+                  Text('data')
+                ],
               ),
-            )
-          ],
+              SizedBox(
+                height: 10,
+              ),
+              RaisedButton(
+                child: Text('Save'),
+                color: Theme.of(context).accentColor,
+                textColor: Colors.white,
+                onPressed: _onFormSubmit,
+              ),
+              GestureDetector(
+                onTap: _onFormSubmit,
+                child: Container(
+                  child: Text('Guesture'),
+                ),
+              )
+            ],
+          ),
         ),
       ),
+    );
+
+    if (widget.product == null) return pageContent;
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Edit Product'),
+      ),
+      body: pageContent,
     );
   }
 }
