@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutteress/models/product.dart';
 import 'package:flutteress/pages/auth.dart';
 import 'package:flutteress/pages/product.dart';
 import 'package:flutteress/pages/products.dart';
@@ -21,9 +22,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  List<Map<String, dynamic>> _products = [];
+  List<Product> _products = [];
 
-  void _addProduct(Map<String, dynamic> product) {
+  void _addProduct(Product product) {
     setState(() {
       _products.add(product);
     });
@@ -35,7 +36,7 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  void _updateProduct(int index, Map<String, dynamic> product) {
+  void _updateProduct(int index, Product product) {
     setState(() {
       _products[index] = product;
     });
@@ -70,9 +71,9 @@ class _MyAppState extends State<MyApp> {
 
           return MaterialPageRoute<bool>(
             builder: (BuildContext context) => ProductPage(
-                _products[index]['title'],
-                _products[index]['image'],
-                _products[index]['description']),
+                _products[index].title,
+                _products[index].image,
+                _products[index].description),
           );
         }
         return null;

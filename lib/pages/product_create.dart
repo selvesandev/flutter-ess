@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutteress/models/product.dart';
 
 class ProductCreate extends StatefulWidget {
   final Function addProduct;
-  final Map<String, dynamic> product;
+  final Product product;
   final Function updatePorduct;
   final int productIndex;
   ProductCreate(
@@ -41,7 +42,7 @@ class _ProductCreatePageState extends State<ProductCreate> {
     return (TextFormField(
       decoration: InputDecoration(labelText: 'Product Title'),
       autofocus: true,
-      initialValue: widget.product == null ? '' : widget.product['title'],
+      initialValue: widget.product == null ? '' : widget.product.title,
       // autovalidate: true,
       validator: (String value) {
         if (value.isEmpty || value.length < 5) {
@@ -59,7 +60,7 @@ class _ProductCreatePageState extends State<ProductCreate> {
   Widget _buildDescriptionTextField() {
     return TextFormField(
       maxLines: 4,
-      initialValue: widget.product == null ? '' : widget.product['description'],
+      initialValue: widget.product == null ? '' : widget.product.description,
       autofocus: true,
       decoration: InputDecoration(labelText: 'Descripition'),
       validator: (String value) {
@@ -77,7 +78,7 @@ class _ProductCreatePageState extends State<ProductCreate> {
   Widget _buildPriceTextField() {
     return TextFormField(
       initialValue:
-          widget.product == null ? '' : widget.product['price'].toString(),
+          widget.product == null ? '' : widget.product.price.toString(),
       keyboardType: TextInputType.number,
       decoration: InputDecoration(labelText: 'Price'),
       autofocus: true,
