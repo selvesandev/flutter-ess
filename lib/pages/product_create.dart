@@ -97,10 +97,10 @@ class _ProductCreatePageState extends State<ProductCreate> {
           _formData['price'], _formData['image']);
     else
       updateProduct(
-          title: _formData['title'],
-          description: _formData['description'],
-          price: _formData['price'],
-          image: _formData['image']);
+          _formData['title'],
+          _formData['description'],
+          _formData['price'],
+          _formData['image']);
 
     Navigator.pushReplacementNamed(context, '/products');
   }
