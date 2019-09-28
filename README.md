@@ -466,3 +466,7 @@ When the route is not found in route definition or when the route is not handled
 * `Dialog` and `Modals` are also managed via the navigator.
 * `Navigator.pop()` closes the overlay, a second call closes the page.
 
+
+### Flutter HTTP Module
+
+`https://pub.dev/packages/http` 
