@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutteress/models/product.dart';
+import 'package:flutteress/scoped-models/products.dart';
 import 'package:flutteress/widgets/products/price_tag.dart';
 import 'package:flutteress/widgets/ui_element/title_default.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;
@@ -39,17 +41,20 @@ class ProductCard extends StatelessWidget {
             }
           }),
         ),
-        IconButton(
-          icon: Icon(Icons.favorite_border),
-          color: Colors.red,
-          onPressed: () => Navigator.pushNamed<bool>(
-                  context, '/product/' + productIndex.toString())
-              .then((bool value) {
-            if (value) {
-              // deleteProduct(index);
-            }
-          }),
-        ),
+        ScopedModelDescendant(
+          builder: (BuildContext context, Widget child, ProductsModel model) {
+            return IconButton(
+              icon: Icon(!model.displayedProducts[productIndex].isFavourite
+                  ? Icons.favorite_border
+                  : Icons.favorite),
+              color: Colors.red,
+              onPressed: () {
+                // model.selectProduct(productIndex);
+                model.toggleFavouriteStatus(productIndex);
+              },
+            );
+          },
+        )
       ],
     );
   }

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutteress/models/product.dart';
+import 'package:flutteress/scoped-models/products.dart';
 import 'dart:async';
 
 import 'package:flutteress/widgets/ui_element/title_default.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class ProductPage extends StatelessWidget {
-  final String title, image, description;
+  final int productIndex;
   // final String imageUrl;
 
-  ProductPage(this.title, this.image,this.description);
+  ProductPage(this.productIndex);
 
   _showWarnindDialog(BuildContext context) {
     return showDialog(
@@ -37,41 +40,49 @@ class ProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () {
-        Navigator.pop(context, false);
-        return Future.value(false);
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('Product Details'),
-        ),
-        body: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Image.asset(image),
-              Container(
+    return WillPopScope(onWillPop: () {
+      Navigator.pop(context, false);
+      return Future.value(false);
+    }, child: ScopedModelDescendant<ProductsModel>(
+      builder: (BuildContext context, Widget child, ProductsModel model) {
+        final Product product = model.products[productIndex];
+
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('Product Details'),
+          ),
+          body: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Image.asset(product.image),
+                Container(
+                    padding: EdgeInsets.all(10),
+                    child: Column(
+                      children: <Widget>[
+                        Center(
+                          child: TitleDefault(product.title),
+                        ),
+                        Center(
+                          child: Text(
+                            product.description,
+                          ),
+                        )
+                      ],
+                    )),
+                Container(
                   padding: EdgeInsets.all(10),
-                  child: Column(
-                    children: <Widget>[
-                      Center(
-                        child: TitleDefault(title),
-                      ),
-                      Center(
-                        child: Text(description,),
-                      )
-                    ],
-                  )),
-              Container(
-                padding: EdgeInsets.all(10),
-                child: RaisedButton(
-                  color: Theme.of(context).accentColor,
-                  child: Text('Delete',style: TextStyle(color: Colors.white),),
-                  onPressed: () => _showWarnindDialog(context),
+                  child: RaisedButton(
+                    color: Theme.of(context).accentColor,
+                    child: Text(
+                      'Delete',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: () => _showWarnindDialog(context),
+                  ),
                 ),
-              ),
-            ]),
-      ),
-    );
+              ]),
+        );
+      },
+    ));
   }
 }
