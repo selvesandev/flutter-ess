@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutteress/product_manager.dart';
-import 'package:flutteress/scoped-models/products.dart';
+import 'package:flutteress/scoped-models/main.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class ProductsPage extends StatelessWidget {
@@ -34,7 +34,7 @@ class ProductsPage extends StatelessWidget {
         title: Text('Flutter Ecommerce'),
         actions: <Widget>[
           ScopedModelDescendant(
-            builder: (BuildContext context, Widget child, ProductsModel model) {
+            builder: (BuildContext context, Widget child, MainModel model) {
               return IconButton(
                 icon: Icon(model.showFavourites
                     ? Icons.favorite

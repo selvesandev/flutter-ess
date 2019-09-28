@@ -3,10 +3,9 @@ import 'package:flutteress/pages/auth.dart';
 import 'package:flutteress/pages/product.dart';
 import 'package:flutteress/pages/products.dart';
 import 'package:flutteress/pages/products_admin.dart';
-import 'package:flutteress/scoped-models/products.dart';
+import 'package:flutteress/scoped-models/main.dart';
 import 'package:flutteress/widgets/products/products.dart';
 import 'package:scoped_model/scoped_model.dart';
-// import 'package:flutteress/pages/products.dart';
 
 void main() {
   // debugPaintSizeEnabled = true;
@@ -25,8 +24,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return ScopedModel<ProductsModel>(
-      model: ProductsModel(),
+    return ScopedModel<MainModel>(
+      model: MainModel(),
       child: MaterialApp(
         // debugShowMaterialGrid: true,
         theme: ThemeData(

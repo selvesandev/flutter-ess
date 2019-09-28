@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutteress/models/product.dart';
-import 'package:flutteress/scoped-models/products.dart';
+import 'package:flutteress/scoped-models/main.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class ProductCreate extends StatefulWidget {
@@ -93,24 +93,22 @@ class _ProductCreatePageState extends State<ProductCreate> {
     //   'image': 'assets/barbell.jpg'
     // };
     if (selectedProductIndex == null)
-      addProduct(Product(
-          title: _formData['title'],
-          price: _formData['price'],
-          description: _formData['description'],
-          image: _formData['image']));
+      addProduct(_formData['title'], _formData['description'],
+          _formData['price'], _formData['image']);
     else
-      updateProduct(Product(
+      updateProduct(
           title: _formData['title'],
-          price: _formData['price'],
           description: _formData['description'],
-          image: _formData['image']));
-          
+          price: _formData['price'],
+          image: _formData['image']);
+
     Navigator.pushReplacementNamed(context, '/products');
   }
 
   Widget _buildSubmitBtn() {
-    return ScopedModelDescendant<ProductsModel>(
-      builder: (BuildContext context, Widget child, ProductsModel model) {
+    return ScopedModelDescendant<MainModel>(
+      builder: (BuildContext context, Widget child, MainModel model) {
+        // print(model.c_a  uthenticatedUser);
         return (RaisedButton(
           child: Text('Save'),
           color: Theme.of(context).accentColor,
@@ -174,7 +172,7 @@ class _ProductCreatePageState extends State<ProductCreate> {
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant(
-      builder: (BuildContext context, Widget child, ProductsModel model) {
+      builder: (BuildContext context, Widget child, MainModel model) {
         final Widget pageContent =
             this._buildPageContent(context, model.selectedProduct);
 

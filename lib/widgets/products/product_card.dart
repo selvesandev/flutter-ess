@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutteress/models/product.dart';
-import 'package:flutteress/scoped-models/products.dart';
+import 'package:flutteress/scoped-models/main.dart';
 import 'package:flutteress/widgets/products/price_tag.dart';
 import 'package:flutteress/widgets/ui_element/title_default.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -42,7 +42,7 @@ class ProductCard extends StatelessWidget {
           }),
         ),
         ScopedModelDescendant(
-          builder: (BuildContext context, Widget child, ProductsModel model) {
+          builder: (BuildContext context, Widget child, MainModel model) {
             return IconButton(
               icon: Icon(!model.displayedProducts[productIndex].isFavourite
                   ? Icons.favorite_border
@@ -69,6 +69,7 @@ class ProductCard extends StatelessWidget {
             height: 10,
           ),
           _buildTitlePrice(),
+          Text(product.email),
           _buildActionButtons(context)
         ],
       ),
