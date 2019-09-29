@@ -22,11 +22,11 @@ class ConnectedScopes extends Model {
     http
         .post('https://flutteress.firebaseio.com/products.json',
             body: json.encode(productData))
-        .catchError((onError) {
-      print(onError);
-    });
-
-    final Product product = Product(
+        .then((http.Response res) {
+      final Map<String, dynamic> responseData = json.decode(res.body);
+      
+      final Product product = Product(
+        id: responseData['name'],
         title: title,
         description: description,
         price: price,
@@ -35,5 +35,9 @@ class ConnectedScopes extends Model {
         userId: c_authenticatedUser.id);
     c_products.add(product);
     c_selectedProductIndex = null;
+
+    }).catchError((onError) {
+      print(onError);
+    });
   }
 }

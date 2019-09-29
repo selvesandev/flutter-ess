@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutteress/models/product.dart';
 import 'package:flutteress/scoped-models/connected_scopes.dart';
+import 'package:http/http.dart' as http;
 
 class ProductsModel extends ConnectedScopes {
   bool showFavourites = false;
@@ -42,6 +45,14 @@ class ProductsModel extends ConnectedScopes {
 
     c_products[c_selectedProductIndex] = updatedProduct;
     c_selectedProductIndex = null;
+  }
+
+  void fetchProducts() {
+    http
+        .get('https://flutteress.firebaseio.com/products.json')
+        .then((http.Response res) {
+      print(json.decode(res.body));
+    });
   }
 
   void selectProduct(int index) {

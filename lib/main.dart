@@ -24,8 +24,9 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
+    final mainModel=MainModel();
     return ScopedModel<MainModel>(
-      model: MainModel(),
+      model: mainModel,
       child: MaterialApp(
         // debugShowMaterialGrid: true,
         theme: ThemeData(
@@ -38,7 +39,7 @@ class _MyAppState extends State<MyApp> {
         routes: {
           '/': (BuildContext context) => AuthPage(),
           '/admin': (BuildContext context) => ProductAdmin(),
-          '/products': (BuildContext context) => ProductsPage()
+          '/products': (BuildContext context) => ProductsPage(mainModel)
         },
         onGenerateRoute: (RouteSettings setting) {
           final List<String> pathElement = setting.name.split('/');
@@ -58,7 +59,7 @@ class _MyAppState extends State<MyApp> {
         },
         onUnknownRoute: (RouteSettings settings) {
           return MaterialPageRoute(
-              builder: (BuildContext context) => Products());
+              builder: (BuildContext context) => ProductsPage(mainModel));
         },
       ),
     );
