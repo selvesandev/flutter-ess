@@ -51,7 +51,24 @@ class ProductsModel extends ConnectedScopes {
     http
         .get('https://flutteress.firebaseio.com/products.json')
         .then((http.Response res) {
-      print(json.decode(res.body));
+      final List<Product> productList = [];
+      final Map<String, dynamic> productListData = json.decode(res.body);
+      
+      productListData.forEach((String productId, dynamic productData) {
+        final Product product = Product(
+            id: productId,
+            title: productData['title'],
+            description: productData['description'],
+            image: productData['image'],
+            price: productData['price'],
+            userId: productData['userId'],
+            email: productData['userEmail']);
+        productList.add(product);
+      });
+
+      // print(productList.toList());
+      c_products = productList;
+      notifyListeners();
     });
   }
 
