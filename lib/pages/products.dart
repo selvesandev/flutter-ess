@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutteress/product_manager.dart';
 import 'package:flutteress/scoped-models/main.dart';
+import 'package:flutteress/widgets/products/products.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class ProductsPage extends StatefulWidget {
@@ -18,8 +18,6 @@ class _ProductsPageState extends State<ProductsPage> {
     widget.mainModel.fetchProducts();
     super.initState();
   }
-
-  
 
   Widget _buildSideDrawer(BuildContext context) {
     return Drawer(
@@ -40,6 +38,21 @@ class _ProductsPageState extends State<ProductsPage> {
           )
         ],
       ),
+    );
+  }
+
+  Widget _buildMyProductList() {
+    return ScopedModelDescendant(
+      builder: (BuildContext context, Widget child, MainModel model) {
+        Widget content = Center(child: Text('No Product Found'));
+        if (model.displayedProducts.length > 0 && !model.isLoading) {
+          content = Products();
+        } else if (model.isLoading) {
+          content = Center(child: CircularProgressIndicator());
+        }
+
+        return RefreshIndicator(child: content, onRefresh: model.fetchProducts);
+      },
     );
   }
 
@@ -64,7 +77,7 @@ class _ProductsPageState extends State<ProductsPage> {
           )
         ],
       ),
-      body: ProductManager(),
+      body: _buildMyProductList(),
     );
   }
 }

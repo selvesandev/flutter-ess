@@ -27,35 +27,40 @@ class ProductCard extends StatelessWidget {
   }
 
   Widget _buildActionButtons(BuildContext context) {
-    return ButtonBar(
-      alignment: MainAxisAlignment.center,
-      children: <Widget>[
-        IconButton(
-          color: Theme.of(context).accentColor,
-          icon: Icon(Icons.info),
-          onPressed: () => Navigator.pushNamed<bool>(
-                  context, '/product/' + productIndex.toString())
-              .then((bool value) {
-            if (value) {
-              // deleteProduct(index);
-            }
-          }),
-        ),
-        ScopedModelDescendant(
-          builder: (BuildContext context, Widget child, MainModel model) {
-            return IconButton(
-              icon: Icon(!model.displayedProducts[productIndex].isFavourite
-                  ? Icons.favorite_border
-                  : Icons.favorite),
-              color: Colors.red,
-              onPressed: () {
-                // model.selectProduct(productIndex);
-                model.toggleFavouriteStatus(productIndex);
+    return ScopedModelDescendant(
+      builder: (BuildContext context, Widget child, MainModel model) {
+        return ButtonBar(
+          alignment: MainAxisAlignment.center,
+          children: <Widget>[
+            IconButton(
+              color: Theme.of(context).accentColor,
+              icon: Icon(Icons.info),
+              onPressed: () => Navigator.pushNamed<bool>(
+                      context, '/product/' + model.products[productIndex].id)
+                  .then((bool value) {
+                if (value) {
+                  // deleteProduct(index);
+                }
+              }),
+            ),
+            ScopedModelDescendant(
+              builder: (BuildContext context, Widget child, MainModel model) {
+                return IconButton(
+                  icon: Icon(!model.displayedProducts[productIndex].isFavourite
+                      ? Icons.favorite_border
+                      : Icons.favorite),
+                  color: Colors.red,
+                  onPressed: () {
+                    model.selectProduct(model.products[productIndex].id);
+                    model
+                        .toggleFavouriteStatus(model.products[productIndex].id);
+                  },
+                );
               },
-            );
-          },
-        )
-      ],
+            )
+          ],
+        );
+      },
     );
   }
 
@@ -65,7 +70,12 @@ class ProductCard extends StatelessWidget {
       child: Column(
         children: <Widget>[
           // Image.asset(product.image),
-          Image.network(product.image),
+          FadeInImage(
+            image: NetworkImage(product.image),
+            placeholder: AssetImage('assets/background.jpg'),
+            height: 300,
+            fit: BoxFit.cover,
+          ),
           SizedBox(
             height: 10,
           ),

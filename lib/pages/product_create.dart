@@ -25,7 +25,7 @@ class _ProductCreatePageState extends State<ProductCreate> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Widget _buildTitleTextField(Product product) {
-    return (TextFormField(
+    return TextFormField(
       decoration: InputDecoration(labelText: 'Product Title'),
       autofocus: true,
       initialValue: product == null ? '' : product.title,
@@ -40,7 +40,7 @@ class _ProductCreatePageState extends State<ProductCreate> {
         _formData['title'] = value;
         // titleValue = value;
       },
-    ));
+    );
   }
 
   Widget _buildDescriptionTextField(Product product) {
@@ -80,7 +80,8 @@ class _ProductCreatePageState extends State<ProductCreate> {
     );
   }
 
-  _onFormSubmit(Function addProduct, Function updateProduct,
+  _onFormSubmit(
+      Function addProduct, Function updateProduct, Function selectProduct,
       [int selectedProductIndex]) {
     if (!_formKey.currentState.validate()) {
       return;
@@ -92,30 +93,57 @@ class _ProductCreatePageState extends State<ProductCreate> {
     //   'price': priceValue,
     //   'image': 'assets/barbell.jpg'
     // };
-    if (selectedProductIndex == null)
+    if (selectedProductIndex == -1)
       addProduct(_formData['title'], _formData['description'],
-          _formData['price'], _formData['image']);
+              _formData['price'], _formData['image'])
+          .then((bool success) {
+        if (success)
+          Navigator.pushReplacementNamed(context, '/products').then((_) {
+            selectProduct(null);
+          });
+        else
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('Something went wrong'),
+                  content: Text('Please try again.'),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text('Ok'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ],
+                );
+              });
+      });
     else
-      updateProduct(
-          _formData['title'],
-          _formData['description'],
-          _formData['price'],
-          _formData['image']);
-
-    Navigator.pushReplacementNamed(context, '/products');
+      updateProduct(_formData['title'], _formData['description'],
+              _formData['price'], _formData['image'])
+          .then((_) {
+        Navigator.pushReplacementNamed(context, '/products').then((_) {
+          selectProduct(null);
+        });
+      });
   }
 
   Widget _buildSubmitBtn() {
     return ScopedModelDescendant<MainModel>(
       builder: (BuildContext context, Widget child, MainModel model) {
-        // print(model.c_a  uthenticatedUser);
-        return (RaisedButton(
-          child: Text('Save'),
-          color: Theme.of(context).accentColor,
-          textColor: Colors.white,
-          onPressed: () => _onFormSubmit(model.addProduct, model.updateProduct,
-              model.selectedProductIndex),
-        ));
+        return model.isLoading
+            ? Center(child: CircularProgressIndicator())
+            : (RaisedButton(
+                child: Text('Save'),
+                color: Theme.of(context).accentColor,
+                textColor: Colors.white,
+                onPressed: () => _onFormSubmit(
+                    model.addProduct,
+                    model.updateProduct,
+                    model.selectProduct,
+                    model.selectedProductIndex),
+              ));
       },
     );
   }
@@ -124,7 +152,7 @@ class _ProductCreatePageState extends State<ProductCreate> {
     final double deviceWidth = MediaQuery.of(context).size.width;
     final double targetWidth = deviceWidth > 550 ? 500 : deviceWidth * 0.95;
     final double targetPadding = deviceWidth - targetWidth;
-
+// print(selectedProduct);
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
@@ -175,8 +203,8 @@ class _ProductCreatePageState extends State<ProductCreate> {
       builder: (BuildContext context, Widget child, MainModel model) {
         final Widget pageContent =
             this._buildPageContent(context, model.selectedProduct);
-
-        return (model.selectedProductIndex == null)
+        print(model.selectedProduct.toString());
+        return (model.selectedProductIndex == -1)
             ? pageContent
             : Scaffold(
                 appBar: AppBar(

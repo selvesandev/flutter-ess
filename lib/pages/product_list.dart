@@ -3,22 +3,34 @@ import 'package:flutteress/pages/product_create.dart';
 import 'package:flutteress/scoped-models/main.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class ProductList extends StatelessWidget {
-  // final List<Product> products;
-  // final Function updateProduct;
-  // final Function deleteProduct;
-  ProductList();
+class ProductListPage extends StatefulWidget {
+  final MainModel mainModel;
+  ProductListPage(this.mainModel);
 
-  Widget _buildEditButtom(BuildContext context, index, MainModel model) {
+  @override
+  State<StatefulWidget> createState() {
+    return _ProductListState();
+  }
+}
+
+class _ProductListState extends State<ProductListPage> {
+  @override
+  initState() {
+    super.initState();
+    widget.mainModel.fetchProducts();
+  }
+
+  Widget _buildEditButtom(BuildContext context, int index, MainModel model) {
     return IconButton(
       icon: Icon(Icons.edit),
       onPressed: () {
-        model.selectProduct(index);
+        model.selectProduct(widget.mainModel.products[index].id);
+        
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (BuildContext context) {
           return ProductCreate();
         }));
-        // Navigator.of(context).push(MaterialPageRoute() );
+        Navigator.of(context).push(MaterialPageRoute());
       },
     );
   }
@@ -32,7 +44,7 @@ class ProductList extends StatelessWidget {
             return Dismissible(
               onDismissed: (DismissDirection direction) {
                 if (direction == DismissDirection.endToStart) {
-                  model.selectProduct(index);
+                  model.selectProduct(widget.mainModel.products[index].id);
                   model.deleteProduct();
                 }
                 //this.deleteProduct();
@@ -40,16 +52,16 @@ class ProductList extends StatelessWidget {
               background: Container(
                 color: Colors.red,
               ),
-              key: Key(model.products[index].title),
+              key: Key(widget.mainModel.products[index].title),
               child: Column(
                 children: <Widget>[
                   ListTile(
                       leading: CircleAvatar(
                         backgroundImage:
                             // AssetImage(model.products[index].image),
-                            NetworkImage(model.products[index].image),
+                            NetworkImage(widget.mainModel.products[index].image),
                       ),
-                      title: Text(model.products[index].title),
+                      title: Text(widget.mainModel.products[index].title),
                       subtitle:
                           Text('\$${model.products[index].price.toString()}'),
                       trailing: this._buildEditButtom(context, index, model)),

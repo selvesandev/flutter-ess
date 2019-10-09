@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutteress/models/product.dart';
 import 'package:flutteress/pages/auth.dart';
 import 'package:flutteress/pages/product.dart';
 import 'package:flutteress/pages/products.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    final mainModel=MainModel();
+    final mainModel = MainModel();
     return ScopedModel<MainModel>(
       model: mainModel,
       child: MaterialApp(
@@ -38,21 +39,25 @@ class _MyAppState extends State<MyApp> {
         // home: AuthPage(),
         routes: {
           '/': (BuildContext context) => AuthPage(),
-          '/admin': (BuildContext context) => ProductAdmin(),
+          '/admin': (BuildContext context) => ProductAdmin(mainModel),
           '/products': (BuildContext context) => ProductsPage(mainModel)
         },
+
         onGenerateRoute: (RouteSettings setting) {
           final List<String> pathElement = setting.name.split('/');
-          print(pathElement);
           if (pathElement[0] != '') {
             return null;
           }
 
           if (pathElement[1] == 'product') {
-            final int index = int.parse(pathElement[2]);
-
+            final String productId = pathElement[2];
+            final Product product =
+                mainModel.products.firstWhere((Product product) {
+              return product.id == productId;
+            });
+            mainModel.selectProduct(productId);
             return MaterialPageRoute<bool>(
-              builder: (BuildContext context) => ProductPage(index),
+              builder: (BuildContext context) => ProductPage(product),
             );
           }
           return null;

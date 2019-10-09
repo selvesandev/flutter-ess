@@ -8,10 +8,13 @@ import 'package:http/http.dart' as http;
 class ConnectedScopes extends Model {
   List<Product> c_products = [];
   User c_authenticatedUser;
-  int c_selectedProductIndex;
+  String c_selectedProductID;
+  bool c_isLoading = false;
 
-  void addProduct(
-      String title, String description, double price, String image) {
+  Future<bool> addProduct(
+      String title, String description, double price, String image) async {
+    c_isLoading = true;
+    notifyListeners();
     final Map<String, dynamic> productData = {
       'title': title,
       'description': description,
@@ -21,11 +24,19 @@ class ConnectedScopes extends Model {
       'userEmail': c_authenticatedUser.email,
       'userId': c_authenticatedUser.id
     };
-    http
-        .post('https://flutteress.firebaseio.com/products.json',
-            body: json.encode(productData))
-        .then((http.Response res) {
-      final Map<String, dynamic> responseData = json.decode(res.body);
+
+    try {
+      final http.Response response = await http.post(
+          'https://flutteress.firebaseio.com/products.json',
+          body: json.encode(productData));
+
+      if (response.statusCode != 200 && response.statusCode != 201) {
+        c_isLoading = false;
+        notifyListeners();
+        return false;
+      }
+
+      final Map<String, dynamic> responseData = json.decode(response.body);
 
       final Product product = Product(
           id: responseData['name'],
@@ -36,9 +47,14 @@ class ConnectedScopes extends Model {
           email: c_authenticatedUser.email,
           userId: c_authenticatedUser.id);
       c_products.add(product);
-      c_selectedProductIndex = null;
-    }).catchError((onError) {
-      print(onError);
-    });
+      c_selectedProductID = null;
+      c_isLoading = false;
+      notifyListeners();
+      return true;
+    } catch (error) {
+      c_isLoading = false;
+      notifyListeners();
+      return false;
+    }
   }
 }

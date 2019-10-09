@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutteress/models/product.dart';
-import 'package:flutteress/scoped-models/main.dart';
 import 'dart:async';
 
 import 'package:flutteress/widgets/ui_element/title_default.dart';
-import 'package:scoped_model/scoped_model.dart';
 
 class ProductPage extends StatelessWidget {
-  final int productIndex;
+  final Product product;
   // final String imageUrl;
 
-  ProductPage(this.productIndex);
+  ProductPage(this.product);
 
   _showWarnindDialog(BuildContext context) {
     return showDialog(
@@ -43,18 +41,19 @@ class ProductPage extends StatelessWidget {
     return WillPopScope(onWillPop: () {
       Navigator.pop(context, false);
       return Future.value(false);
-    }, child: ScopedModelDescendant<MainModel>(
-      builder: (BuildContext context, Widget child, MainModel model) {
-        final Product product = model.products[productIndex];
-
-        return Scaffold(
+    }, child:  Scaffold(
           appBar: AppBar(
             title: Text('Product Details'),
           ),
           body: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Image.asset(product.image),
+                FadeInImage(
+                  image: NetworkImage(product.image),
+                  placeholder: AssetImage('assets/background.jpg'),
+                  fit: BoxFit.cover,
+                  height: 300,
+                ),
                 Container(
                     padding: EdgeInsets.all(10),
                     child: Column(
@@ -81,8 +80,7 @@ class ProductPage extends StatelessWidget {
                   ),
                 ),
               ]),
-        );
-      },
-    ));
+        ));
+      
   }
 }
