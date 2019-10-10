@@ -47,7 +47,7 @@ class ProductsModel extends ConnectedScopes {
     c_selectedProductID = null;
     notifyListeners();
     return http
-        .delete('https://flutteress.firebaseio.com/products/${productID}.json')
+        .delete('https://flutteress.firebaseio.com/products/${productID}.json?auth=${c_authenticatedUser.token}')
         .then((http.Response response) {
       c_isLoading = false;
       notifyListeners();
@@ -76,7 +76,7 @@ class ProductsModel extends ConnectedScopes {
     };
     return http
         .put(
-            'https://flutteress.firebaseio.com/products/${selectedProduct.id}.json',
+            'https://flutteress.firebaseio.com/products/${selectedProduct.id}.json?auth=${c_authenticatedUser.token}',
             body: json.encode(updateData))
         .then((http.Response response) {
       final Product updatedProduct = Product(
@@ -100,8 +100,9 @@ class ProductsModel extends ConnectedScopes {
   Future<Null> fetchProducts() {
     c_isLoading = true;
     notifyListeners();
+    
     return http
-        .get('https://flutteress.firebaseio.com/products.json')
+        .get('https://flutteress.firebaseio.com/products.json?auth=${c_authenticatedUser.token}')
         .then<Null>((http.Response res) {
       final List<Product> productList = [];
       c_products=[];

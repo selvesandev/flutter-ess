@@ -5,7 +5,6 @@ import 'package:flutteress/pages/product.dart';
 import 'package:flutteress/pages/products.dart';
 import 'package:flutteress/pages/products_admin.dart';
 import 'package:flutteress/scoped-models/main.dart';
-import 'package:flutteress/widgets/products/products.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 void main() {
@@ -23,11 +22,18 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final MainModel _mainModal = MainModel();
+  @override
+  void initState() {
+    _mainModal.authenticatedCheck();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final mainModel = MainModel();
     return ScopedModel<MainModel>(
-      model: mainModel,
+      model: _mainModal,
       child: MaterialApp(
         // debugShowMaterialGrid: true,
         theme: ThemeData(
@@ -38,9 +44,10 @@ class _MyAppState extends State<MyApp> {
             fontFamily: 'MyFont'),
         // home: AuthPage(),
         routes: {
-          '/': (BuildContext context) => AuthPage(),
+          '/': (BuildContext context) => mainModel.user == null ? AuthPage() : ProductsPage(mainModel),
+                  
           '/admin': (BuildContext context) => ProductAdmin(mainModel),
-          '/products': (BuildContext context) => ProductsPage(mainModel)
+          '/products': (BuildContext context) => ProductsPage(_mainModal)
         },
 
         onGenerateRoute: (RouteSettings setting) {
@@ -64,7 +71,7 @@ class _MyAppState extends State<MyApp> {
         },
         onUnknownRoute: (RouteSettings settings) {
           return MaterialPageRoute(
-              builder: (BuildContext context) => ProductsPage(mainModel));
+              builder: (BuildContext context) => ProductsPage(_mainModal));
         },
       ),
     );

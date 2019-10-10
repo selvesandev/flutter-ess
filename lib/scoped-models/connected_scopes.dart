@@ -27,7 +27,7 @@ class ConnectedScopes extends Model {
 
     try {
       final http.Response response = await http.post(
-          'https://flutteress.firebaseio.com/products.json',
+          'https://flutteress.firebaseio.com/products.json?auth=${c_authenticatedUser.token}',
           body: json.encode(productData));
 
       if (response.statusCode != 200 && response.statusCode != 201) {

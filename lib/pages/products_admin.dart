@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutteress/pages/product_create.dart';
 import 'package:flutteress/pages/product_list.dart';
 import 'package:flutteress/scoped-models/main.dart';
+import 'package:flutteress/widgets/ui_element/log_out_list_tile.dart';
 
 class ProductAdmin extends StatelessWidget {
   final MainModel mainModel;
@@ -14,10 +15,12 @@ class ProductAdmin extends StatelessWidget {
           AppBar(automaticallyImplyLeading: false, title: Text('Choose')),
           ListTile(
               leading: Icon(Icons.shop),
-              title: Text('All Products'),
+              title: Text('All Product'),
               onTap: () {
                 Navigator.pushReplacementNamed(context, '/products');
-              })
+              }),
+          Divider(),
+          LogoutListTile()
         ],
       ),
     );
@@ -45,10 +48,7 @@ class ProductAdmin extends StatelessWidget {
           ),
         ),
         body: TabBarView(
-          children: <Widget>[
-            ProductCreate(),
-            ProductListPage(mainModel)
-          ],
+          children: <Widget>[ProductCreate(), ProductListPage(mainModel)],
         ),
       ),
     );

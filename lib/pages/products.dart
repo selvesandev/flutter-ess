@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutteress/scoped-models/main.dart';
 import 'package:flutteress/widgets/products/products.dart';
+import 'package:flutteress/widgets/ui_element/log_out_list_tile.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class ProductsPage extends StatefulWidget {
@@ -35,7 +36,9 @@ class _ProductsPageState extends State<ProductsPage> {
             onTap: () {
               Navigator.pushReplacementNamed(context, '/admin');
             },
-          )
+          ),
+          Divider(),
+          LogoutListTile()
         ],
       ),
     );
